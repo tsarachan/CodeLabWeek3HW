@@ -7,6 +7,7 @@ public class CrowdAngerScript : MonoBehaviour {
 	private Image meter;
 	public float angerDelay = 2.0f; //total amount of time it takes for the meter to reach zero
 	private float maxDelay;
+	private const float MIN_DELAY = 1.0f;
 	private float angerTimer;
 	public float delayReduction = 0.9f;
 	private MatchManagerScript matchManagerScript;
@@ -33,8 +34,9 @@ public class CrowdAngerScript : MonoBehaviour {
 	}
 
 	public void ResetForSuccess(){
-		angerTimer = angerDelay;
 		angerDelay *= delayReduction;
+		if (angerDelay < MIN_DELAY) { angerDelay = MIN_DELAY; }
+		angerTimer = angerDelay;
 	}
 
 	public void ResetForFailure(){
