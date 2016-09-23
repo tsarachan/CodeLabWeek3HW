@@ -29,16 +29,10 @@ public class MatchManagerScript : MonoBehaviour {
 				if(x < gameManager.gridWidth - 2){	//GridHasHorizontalMatch checks 2 to the right
 					//gameManager.gridWidth - 2 ensures you're never extending into
 					//a space that doesn't exist
-					match = match || GridHasAChord(x, y); //if match was ever set to true, it stays true forever
+					match = match || GridHasHorizontalMatch(x, y); //if match was ever set to true, it stays true forever
 				}
 
-				if (x < gameManager.gridWidth - 3 && y < gameManager.gridHeight - 2){
-					match = match || GridHasCChord(x, y);
-				}
-
-				if (x < gameManager.gridWidth - 5 && y < gameManager.gridHeight - 1){
-					match = match || GridHasGChord(x, y);
-				}
+				if (y < gameManager.gridHeight - 2) { match = match || GridHasVerticalMatch(x, y); }
 			}
 		}
 
@@ -74,55 +68,6 @@ public class MatchManagerScript : MonoBehaviour {
 		GameObject token1 = gameManager.gridArray[x, y + 0];
 		GameObject token2 = gameManager.gridArray[x, y + 1];
 		GameObject token3 = gameManager.gridArray[x, y + 2];
-
-		if (token1 != null && token2 != null && token3 != null){
-			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
-
-			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);
-		} else {
-			return false;
-		}
-	}
-
-
-	public bool GridHasCChord(int x, int y){
-		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
-		GameObject token2 = gameManager.gridArray[x + 1, y + 1];
-		GameObject token3 = gameManager.gridArray[x + 3, y + 2];
-
-		if (token1 != null && token2 != null && token3 != null){
-			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
-
-			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);
-		} else {
-			return false;
-		}
-	}
-
-	public bool GridHasAChord(int x, int y){
-		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
-		GameObject token2 = gameManager.gridArray[x + 1, y + 0];
-		GameObject token3 = gameManager.gridArray[x + 2, y + 0];
-
-		if (token1 != null && token2 != null && token3 != null){
-			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
-
-			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);
-		} else {
-			return false;
-		}
-	}
-
-	public bool GridHasGChord(int x, int y){
-		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
-		GameObject token2 = gameManager.gridArray[x + 1, y + 1];
-		GameObject token3 = gameManager.gridArray[x + 5, y + 0];
 
 		if (token1 != null && token2 != null && token3 != null){
 			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
