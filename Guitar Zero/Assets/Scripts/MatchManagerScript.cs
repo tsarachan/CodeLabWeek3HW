@@ -7,13 +7,30 @@ public class MatchManagerScript : MonoBehaviour {
 	//but not to unrelated scripts
 	protected ScoreManager scoreManager;
 
-	GameObject colorBurst;
+	protected GameObject colorBurst;
 	const int CHORD_SIZE = 3;
+	protected int currentMultiplier = 1;
+	public int CurrentMultiplier{
+		get { return currentMultiplier; }
+		set{
+			currentMultiplier = value;
+		}
+	}
+	protected const int MIN_MULTIPLIER = 1;
+	public int Min_Multiplier{
+		get { return MIN_MULTIPLIER; }
+	}
+	protected CrowdAngerScript crowdAngerScript;
+	protected const string SCORE_CANVAS = "Score canvas";
+	protected const string SCORE_TEXT = "Score";
+	protected const string CROWD_METER = "Crowd anger meter";
+	protected const string COLOR_BURST = "Color burst";
 
 	public virtual void Awake (){
 		gameManager = GetComponent<GameManagerScript>();
-		scoreManager = transform.root.Find("Score canvas").Find("Score").GetComponent<ScoreManager>();
-		colorBurst = Resources.Load("Color burst") as GameObject;
+		scoreManager = transform.root.Find(SCORE_CANVAS).Find(SCORE_TEXT).GetComponent<ScoreManager>();
+		crowdAngerScript = transform.root.Find(SCORE_CANVAS).Find(CROWD_METER).GetComponent<CrowdAngerScript>();
+		colorBurst = Resources.Load(COLOR_BURST) as GameObject;
 	}
 
 	/// <summary>
@@ -132,12 +149,6 @@ public class MatchManagerScript : MonoBehaviour {
 			}
 		}
 
-		if (numRemoved > 3){
-			
-			scoreManager.BonusFeedback(scoreManager.BonusIncrement * numRemoved);
-			scoreManager.UpdateScore(scoreManager.BonusIncrement * numRemoved);
-		}
-
 		return numRemoved;
 	}
 
@@ -179,17 +190,17 @@ public class MatchManagerScript : MonoBehaviour {
 		Destroy(token2);
 		Destroy(token3);
 
+		crowdAngerScript.ResetForSuccess();
+		CurrentMultiplier++;
 	}
 
 	protected void ChordFeedback(GameObject[] tokens){
 		foreach (GameObject token in tokens){
-			ProvideFeedback(token.transform.position, CHORD_SIZE);
+			scoreManager.UpdateScore(scoreManager.BasicIncrement * CurrentMultiplier);
+			scoreManager.LocalizedFeedback(scoreManager.BasicIncrement * CurrentMultiplier, token.transform.position);
+			Instantiate(colorBurst, token.transform.position, Quaternion.identity);
 		}
-	}
 
-	protected void ProvideFeedback(Vector3 loc, int multiplier){
-		scoreManager.UpdateScore(scoreManager.BasicIncrement * multiplier);
-		scoreManager.LocalizedFeedback(scoreManager.BasicIncrement * multiplier, loc);
-		Instantiate(colorBurst, loc, Quaternion.identity);
+		scoreManager.BonusFeedback(CurrentMultiplier);
 	}
 }

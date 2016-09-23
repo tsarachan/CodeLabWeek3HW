@@ -27,8 +27,8 @@ public class ScoreManager : MonoBehaviour {
 	float canvasX;
 	float canvasY;
 
-	const float BONUS_X_LOC = -116.5f;
-	const float BONUS_Y_LOC = 330.0f;
+	const float BONUS_X_LOC = -66.0f;
+	const float BONUS_Y_LOC = 183.0f;
 
 	void Start() {
 		score = GetComponent<Text>();
@@ -73,6 +73,6 @@ public class ScoreManager : MonoBehaviour {
 																					  BONUS_Y_LOC,
 																					  0.0f);
 
-		newBonusFeedback.GetComponent<Text>().text = "+" + amount.ToString() + " bonus";
+		newBonusFeedback.GetComponent<Text>().text = "x" + amount.ToString() + " multiplier";
 	}
 }
