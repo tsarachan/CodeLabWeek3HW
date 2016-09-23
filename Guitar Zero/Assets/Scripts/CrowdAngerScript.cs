@@ -40,7 +40,7 @@ public class CrowdAngerScript : MonoBehaviour {
 	public void ResetForFailure(){
 		angerDelay = maxDelay;
 		angerTimer = angerDelay;
-		matchManagerScript.CurrentMultiplier = matchManagerScript.Min_Multiplier;
-		scoreManager.BonusFeedback(matchManagerScript.Min_Multiplier);
+		matchManagerScript.CrowdMultiplier = matchManagerScript.Min_Crowd_Multiplier;
+		scoreManager.BonusFeedback(matchManagerScript.Min_Crowd_Multiplier);
 	}
 }

@@ -9,17 +9,20 @@ public class MatchManagerScript : MonoBehaviour {
 
 	protected GameObject colorBurst;
 	const int CHORD_SIZE = 3;
-	protected int currentMultiplier = 1;
-	public int CurrentMultiplier{
-		get { return currentMultiplier; }
+	protected int crowdMultiplier = 1;
+	public int CrowdMultiplier{
+		get { return crowdMultiplier; }
 		set{
-			currentMultiplier = value;
+			crowdMultiplier = value;
 		}
 	}
-	protected const int MIN_MULTIPLIER = 1;
-	public int Min_Multiplier{
-		get { return MIN_MULTIPLIER; }
+	protected const int MIN_CROWD_MULTIPLIER = 1;
+	public int Min_Crowd_Multiplier{
+		get { return MIN_CROWD_MULTIPLIER; }
 	}
+	protected const int A_CHORD_MULTIPLIER = 1;
+	protected const int C_CHORD_MULTIPLIER = 3;
+	protected const int G_CHORD_MULTIPLIER = 2;
 	protected CrowdAngerScript crowdAngerScript;
 	protected const string SCORE_CANVAS = "Score canvas";
 	protected const string SCORE_TEXT = "Score";
@@ -184,23 +187,41 @@ public class MatchManagerScript : MonoBehaviour {
 				break;
 		}
 			
-		ChordFeedback(new GameObject[] { token1, token2, token3 });
+		ChordFeedback(new GameObject[] { token1, token2, token3 }, chord);
 
 		Destroy(token1);
 		Destroy(token2);
 		Destroy(token3);
 
 		crowdAngerScript.ResetForSuccess();
-		CurrentMultiplier++;
+		CrowdMultiplier++;
 	}
 
-	protected void ChordFeedback(GameObject[] tokens){
+	protected void ChordFeedback(GameObject[] tokens, char chord){
+		int chordMultiplier = 1;
+
+		switch (chord){
+			case 'A':
+				chordMultiplier = A_CHORD_MULTIPLIER;
+				break;
+			case 'C':
+				chordMultiplier = C_CHORD_MULTIPLIER;
+				break;
+			case 'G':
+				chordMultiplier = G_CHORD_MULTIPLIER;
+				break;
+			default:
+				Debug.Log("Illegal chord: " + chord);
+				break;
+		}
+
 		foreach (GameObject token in tokens){
-			scoreManager.UpdateScore(scoreManager.BasicIncrement * CurrentMultiplier);
-			scoreManager.LocalizedFeedback(scoreManager.BasicIncrement * CurrentMultiplier, token.transform.position);
+			scoreManager.UpdateScore(scoreManager.BasicIncrement * CrowdMultiplier* chordMultiplier);
+			scoreManager.LocalizedFeedback(scoreManager.BasicIncrement * CrowdMultiplier * chordMultiplier,
+										   token.transform.position);
 			Instantiate(colorBurst, token.transform.position, Quaternion.identity);
 		}
 
-		scoreManager.BonusFeedback(CurrentMultiplier);
+		scoreManager.BonusFeedback(CrowdMultiplier);
 	}
 }
