@@ -8,6 +8,7 @@ public class MatchManagerScript : MonoBehaviour {
 	protected ScoreManager scoreManager;
 
 	GameObject colorBurst;
+	const int CHORD_SIZE = 3;
 
 	public virtual void Awake (){
 		gameManager = GetComponent<GameManagerScript>();
@@ -26,31 +27,29 @@ public class MatchManagerScript : MonoBehaviour {
 		//check each square in the grid
 		for(int x = 0; x < gameManager.gridWidth; x++){
 			for(int y = 0; y < gameManager.gridHeight ; y++){
-				if(x < gameManager.gridWidth - 2){	//GridHasHorizontalMatch checks 2 to the right
+				if (x < gameManager.gridWidth - 2){	//GridHasHorizontalMatch checks 2 to the right
 					//gameManager.gridWidth - 2 ensures you're never extending into
 					//a space that doesn't exist
-					match = match || GridHasHorizontalMatch(x, y); //if match was ever set to true, it stays true forever
+					match = match || GridHasAChord(x, y); //if match was ever set to true, it stays true forever
 				}
 
-				if (y < gameManager.gridHeight - 2) { match = match || GridHasVerticalMatch(x, y); }
+				if (x < gameManager.gridWidth - 3 && y < gameManager.gridHeight - 2){
+					match = match || GridHasCChord(x, y);
+				}
+
+				if (x < gameManager.gridWidth - 5 && y < gameManager.gridHeight - 1){
+					match = match || GridHasGChord(x, y);
+				}
 			}
 		}
 
 		return match;
 	}
 
-	/// <summary>
-	/// Check if there is a horizontal match, based on the leftmost token.
-	/// </summary>
-	/// <returns><c>true</c> there is a horizontal match originating at these coordinates, 
-	/// <c>false</c> otherwise.</returns>
-	/// <param name="x">The x coordinate of the token to check.</param>
-	/// <param name="y">The y coordinate of the token to check.</param>
-	public bool GridHasHorizontalMatch(int x, int y){
-		//check the token at given coordinates, the token to the right of it, and the token 2 to the right
-		GameObject token1 = gameManager.gridArray[x + 0, y];
-		GameObject token2 = gameManager.gridArray[x + 1, y];
-		GameObject token3 = gameManager.gridArray[x + 2, y];
+	public bool GridHasAChord(int x, int y){
+		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
+		GameObject token2 = gameManager.gridArray[x + 1, y + 0];
+		GameObject token3 = gameManager.gridArray[x + 2, y + 0];
 
 		if(token1 != null && token2 != null && token3 != null){ //ensure all of the token exists
 			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
@@ -64,84 +63,38 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 	}
 
-	public bool GridHasVerticalMatch(int x, int y){
-		GameObject token1 = gameManager.gridArray[x, y + 0];
-		GameObject token2 = gameManager.gridArray[x, y + 1];
-		GameObject token3 = gameManager.gridArray[x, y + 2];
+	public bool GridHasCChord(int x, int y){
+		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
+		GameObject token2 = gameManager.gridArray[x + 1, y + 1];
+		GameObject token3 = gameManager.gridArray[x + 3, y + 2];
 
-		if (token1 != null && token2 != null && token3 != null){
+		if(token1 != null && token2 != null && token3 != null){ //ensure all of the token exists
 			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
 			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
 			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
 
-			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);
+			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);  //compare their sprites
+			//to see if they're the same
 		} else {
 			return false;
 		}
 	}
 
-	/// <summary>
-	/// Determine how far to the right a match extends.
-	/// </summary>
-	/// <returns>The horizontal match length.</returns>
-	/// <param name="x">The x coordinate of the leftmost gameobject in the match.</param>
-	/// <param name="y">The y coordinate of the leftmost gameobject in the match.</param>
-	public int GetHorizontalMatchLength(int x, int y){
-		int matchLength = 1;
+	public bool GridHasGChord(int x, int y){
+		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
+		GameObject token2 = gameManager.gridArray[x + 1, y + 1];
+		GameObject token3 = gameManager.gridArray[x + 5, y + 0];
 
-		GameObject first = gameManager.gridArray[x, y]; //get the gameobject at the provided coordinates
+		if(token1 != null && token2 != null && token3 != null){ //ensure all of the token exists
+			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
+			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
+			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
 
-		//make sure the script found a gameobject, and--if so--get its sprite
-		if(first != null){
-			SpriteRenderer sr1 = first.GetComponent<SpriteRenderer>();
-
-			//compare the gameobject's sprite to the sprite one to the right, two to the right, etc.
-			//each time the script finds a match, increment matchLength
-			//stop when it's not a match, or if the matches extend to the edge of the play area
-			for(int i = x + 1; i < gameManager.gridWidth; i++){
-				GameObject other = gameManager.gridArray[i, y];
-
-				if(other != null){
-					SpriteRenderer sr2 = other.GetComponent<SpriteRenderer>();
-
-					if(sr1.sprite == sr2.sprite){
-						matchLength++;
-					} else {
-						break;
-					}
-				} else {
-					break;
-				}
-			}
+			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);  //compare their sprites
+			//to see if they're the same
+		} else {
+			return false;
 		}
-
-		return matchLength;
-	}
-
-	public int GetVerticalMatchLength(int x, int y){
-		int matchLength = 1;
-
-		GameObject first = gameManager.gridArray[x, y];
-
-		if (first != null){
-			SpriteRenderer sr1 = first.GetComponent<SpriteRenderer>();
-
-			for (int i = y + 1; i < gameManager.gridHeight; i++){
-				GameObject other = gameManager.gridArray[x, i];
-
-				if (other != null){
-					SpriteRenderer sr2 = other.GetComponent<SpriteRenderer>();
-
-					if (sr1.sprite == sr2.sprite){
-						matchLength++;
-					} else { break; }
-				} else {
-					break;
-				}
-			}
-		}
-
-		return matchLength;
 	}
 
 	/// <summary>
@@ -152,38 +105,28 @@ public class MatchManagerScript : MonoBehaviour {
 		int numRemoved = 0;
 
 		//iterate across entire grid, looking for matches
-		//wherever a horizontal match of three or more tokens is found, destroy them
+		//wherever a chord is found, respond
 		for(int x = 0; x < gameManager.gridWidth; x++){
 			for(int y = 0; y < gameManager.gridHeight ; y++){
-				if(x < gameManager.gridWidth - 2){
 
-					int horizonMatchLength = GetHorizontalMatchLength(x, y);
-
-					if(horizonMatchLength > 2){
-
-						for(int i = x; i < x + horizonMatchLength; i++){
-							GameObject token = gameManager.gridArray[i, y];
-							ProvideFeedback(token.transform.position, horizonMatchLength);
-							Destroy(token);
-
-							gameManager.gridArray[i, y] = null;
-							numRemoved++;
-						}
+				if (x < gameManager.gridWidth - 2){
+					if (GridHasAChord(x, y)){
+						RemoveChord(x, y, 'A');
+						numRemoved += CHORD_SIZE;
 					}
 				}
 
-				if (y < gameManager.gridHeight - 2){
-					int verticalMatchLength = GetVerticalMatchLength(x, y);
+				if (x < gameManager.gridWidth - 3 && y < gameManager.gridHeight - 2){
+					if (GridHasCChord(x, y)){
+						RemoveChord(x, y, 'C');
+						numRemoved += CHORD_SIZE;
+					}
+				}
 
-					if (verticalMatchLength > 2){
-						for (int i = y; i < y + verticalMatchLength; i++){
-							GameObject token = gameManager.gridArray[x, i];
-							ProvideFeedback(token.transform.position, verticalMatchLength);
-							Destroy(token);
-
-							gameManager.gridArray[x, i] = null;
-							numRemoved++;
-						}
+				if (x < gameManager.gridWidth - 5 && y < gameManager.gridHeight - 1){
+					if (GridHasGChord(x, y)){
+						RemoveChord(x, y, 'G');
+						numRemoved += CHORD_SIZE;
 					}
 				}
 			}
@@ -196,6 +139,52 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 
 		return numRemoved;
+	}
+
+	protected void RemoveChord(int x, int y, char chord){
+		GameObject token1 = gameManager.gridArray[x, y];
+		gameManager.gridArray[x, y] = null;
+
+
+		GameObject token2 = null;
+		GameObject token3 = null;
+
+		switch(chord){
+			case 'A':
+				token2 = gameManager.gridArray[x + 1, y + 0];
+				gameManager.gridArray[x + 1, y + 0] = null;
+				token3 = gameManager.gridArray[x + 2, y + 0];
+				gameManager.gridArray[x + 2, y + 0] = null;
+				break;
+			case 'C':
+				token2 = gameManager.gridArray[x + 1, y + 1];
+				gameManager.gridArray[x + 1, y + 1] = null;
+				token3 = gameManager.gridArray[x + 3, y + 2];
+				gameManager.gridArray[x + 3, y + 2] = null;
+				break;
+			case 'G':
+				token2 = gameManager.gridArray[x + 1, y + 1];
+				gameManager.gridArray[x + 1, y + 1] = null;
+				token3 = gameManager.gridArray[x + 5, y + 0];
+				gameManager.gridArray[x + 5, y + 0] = null;
+				break;
+			default:
+				Debug.Log("Illegal chord: " + chord);
+				break;
+		}
+			
+		ChordFeedback(new GameObject[] { token1, token2, token3 });
+
+		Destroy(token1);
+		Destroy(token2);
+		Destroy(token3);
+
+	}
+
+	protected void ChordFeedback(GameObject[] tokens){
+		foreach (GameObject token in tokens){
+			ProvideFeedback(token.transform.position, CHORD_SIZE);
+		}
 	}
 
 	protected void ProvideFeedback(Vector3 loc, int multiplier){

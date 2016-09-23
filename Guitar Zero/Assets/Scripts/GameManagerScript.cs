@@ -153,14 +153,22 @@ public class GameManagerScript : MonoBehaviour {
 
 		for (int x = 0; x < gridWidth; x++){
 			for (int y = 0; y < gridHeight; y++){
-				if (x < gridWidth - 2){
-					if (matchManager.GridHasHorizontalMatch(x, y)){
+				if (x < gridWidth - 2){	//GridHasHorizontalMatch checks 2 to the right
+					if (matchManager.GridHasAChord(x, y)){
 						gridArray[x, y].GetComponent<SpriteRenderer>().sprite = ChangeSprite(x, y);
 						foundDuplicates = true;
 					}
 				}
-				if (y < gridHeight - 2){
-					if (matchManager.GridHasVerticalMatch(x, y)){
+
+				if (x < gridWidth - 3 && y < gridHeight - 2){
+					if (matchManager.GridHasCChord(x, y)){
+						gridArray[x, y].GetComponent<SpriteRenderer>().sprite = ChangeSprite(x, y);
+						foundDuplicates = true;
+					}
+				}
+
+				if (x < gridWidth - 5 && y < gridHeight - 1){
+					if (matchManager.GridHasGChord(x, y)){
 						gridArray[x, y].GetComponent<SpriteRenderer>().sprite = ChangeSprite(x, y);
 						foundDuplicates = true;
 					}
