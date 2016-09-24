@@ -23,8 +23,7 @@ public class GameManagerScript : MonoBehaviour {
 	protected UnityEngine.Object[] tokenTypes;
 	protected Sprite[] sprites;
 
-	//TODO: use this variable. It doesn't seem to be used anywhere.
-	GameObject selected;
+	protected GameObject stringGraphic;
 
 	public virtual void Start () {
 		//load the tokens, make the grid, and create references to the other scripts
@@ -36,6 +35,7 @@ public class GameManagerScript : MonoBehaviour {
 		repopulateManager = GetComponent<RepopulateScript>();
 		moveTokenManager = GetComponent<MoveTokensScript>();
 		scoreManager = transform.root.Find("Score canvas").Find("Score").GetComponent<ScoreManager>();
+		stringGraphic = Resources.Load("String") as GameObject;
 		MakeGrid();
 		ChangeGridDuplicates();
 	}
@@ -75,6 +75,14 @@ public class GameManagerScript : MonoBehaviour {
 		grid = new GameObject("TokenGrid");
 		//then, fill the grid with tokens
 		for(int x = 0; x < gridWidth; x++){
+
+			GameObject newStringGraphic = Instantiate(stringGraphic,
+													  new Vector3(x - gridWidth/2 * tokenSize,
+																  0.0f,
+																  0.0f),
+													  Quaternion.identity) as GameObject;
+			newStringGraphic.transform.parent = transform.root.Find("Strings");
+
 			for(int y = 0; y < gridHeight; y++){
 				AddTokenToPosInGrid(x, y, grid);
 			}
