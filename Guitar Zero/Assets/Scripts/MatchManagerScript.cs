@@ -216,7 +216,7 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 
 		foreach (GameObject token in tokens){
-			scoreManager.UpdateScore(scoreManager.BasicIncrement * CrowdMultiplier* chordMultiplier);
+			scoreManager.UpdateScore(scoreManager.BasicIncrement * CrowdMultiplier * chordMultiplier);
 			scoreManager.LocalizedFeedback(scoreManager.BasicIncrement * CrowdMultiplier * chordMultiplier,
 										   token.transform.position);
 			Instantiate(colorBurst, token.transform.position, Quaternion.identity);
