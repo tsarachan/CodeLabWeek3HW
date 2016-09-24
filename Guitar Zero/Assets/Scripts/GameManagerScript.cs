@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 
@@ -25,6 +26,8 @@ public class GameManagerScript : MonoBehaviour {
 
 	protected GameObject stringGraphic;
 
+	protected const string INSTRUCTION_SCENE_NAME = "Instruction scene";
+
 	public virtual void Start () {
 		//load the tokens, make the grid, and create references to the other scripts
 		tokenTypes = (UnityEngine.Object[])Resources.LoadAll("Tokens/");
@@ -38,6 +41,7 @@ public class GameManagerScript : MonoBehaviour {
 		stringGraphic = Resources.Load("String") as GameObject;
 		MakeGrid();
 		ChangeGridDuplicates();
+		SceneManager.LoadScene(INSTRUCTION_SCENE_NAME, LoadSceneMode.Additive);
 	}
 
 	public virtual void Update(){
