@@ -31,8 +31,8 @@ public class ScoreManager : MonoBehaviour {
 	private float canvasX;
 	private float canvasY;
 
-	private const float BONUS_X_LOC = -66.0f;
-	private const float BONUS_Y_LOC = 183.0f;
+	private const float BONUS_X_LOC = 93.0f;
+	private const float BONUS_Y_LOC = -115.0f;
 
 	private const string CONSTANT_PIXEL_CANVAS = "Score local canvas";
 
@@ -48,6 +48,11 @@ public class ScoreManager : MonoBehaviour {
 		canvasY = overlayCanvas.anchoredPosition.y;
 	}
 
+
+	/// <summary>
+	/// Change the player's score, and display the new value.
+	/// </summary>
+	/// <param name="amount">The change in the player's score.</param>
 	public void UpdateScore(int amount){
 		CurrentScore += amount;
 		if (CurrentScore <= maxScore){
@@ -58,6 +63,12 @@ public class ScoreManager : MonoBehaviour {
 		}
 	}
 
+
+	/// <summary>
+	/// Displays the value of a removed token at the location where the token was removed.
+	/// </summary>
+	/// <param name="amount">The value of the token.</param>
+	/// <param name="loc">The world space location of the token.</param>
 	public void LocalizedFeedback(int amount, Vector3 loc){
 		GameObject newScoreFeedback = Instantiate(scoreFeedback,
 												  new Vector3(0.0f, 0.0f, 0.0f),
@@ -73,6 +84,11 @@ public class ScoreManager : MonoBehaviour {
 		newScoreFeedback.GetComponent<Text>().text = amount.ToString();
 	}
 
+
+	/// <summary>
+	/// Display the current crowd multiplier.
+	/// </summary>
+	/// <param name="amount">The crowd multiplier.</param>
 	public void BonusFeedback(int amount){
 		GameObject newBonusFeedback = Instantiate(bonusFeedback, transform.root.Find("Score canvas")) as GameObject;
 
