@@ -8,7 +8,7 @@ public class SceneChanger : MonoBehaviour {
 	const string GAME_SCENE = "GameScene";
 
 	void Update(){
-		if (Input.GetMouseButtonDown(0) && SceneManager.GetActiveScene().name == TITLE_SCENE){
+		if (Input.GetMouseButtonDown(0)){
 			SceneManager.LoadScene(GAME_SCENE);
 		}
 	}

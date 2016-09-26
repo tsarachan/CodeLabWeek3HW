@@ -15,3 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/GameScene.unity
   - enabled: 1
     path: Assets/Scenes/Instruction scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Win scene.unity
+  - enabled: 1
+    path: Assets/Scenes/Lose scene - low score.unity
