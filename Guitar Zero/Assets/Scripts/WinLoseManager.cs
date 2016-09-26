@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -18,6 +19,10 @@ public class WinLoseManager : MonoBehaviour {
 	private const string SCORE_CANVAS = "Score canvas";
 	private const string SCORE = "Score";
 	private const string LIFE_ICONS = "Life icons";
+
+	private const string WIN_SCENE = "Win scene";
+	private const string LOSE_SCENE_SCORE = "Lose scene - low score";
+	private const string LOSE_SCENE_HEALTH = "Lose scene - no health";
 
 
 	private void Start(){
@@ -65,7 +70,11 @@ public class WinLoseManager : MonoBehaviour {
 	/// What happens when the player loses?
 	/// </summary>
 	private void Lose(){
-		Debug.Log("You lose!");
+		if (currentHealth == 0){
+			SceneManager.LoadScene(LOSE_SCENE_HEALTH);
+		} else if (scoreManager.CurrentScore < ScoreToWin && gameManager.ChordsPlayed >= gameManager.NumChordsInSong){ 
+			SceneManager.LoadScene(LOSE_SCENE_SCORE);
+		}
 	}
 
 
@@ -73,6 +82,6 @@ public class WinLoseManager : MonoBehaviour {
 	/// What happens when the player wins?
 	/// </summary>
 	private void Win(){
-		Debug.Log("You win!");
+		SceneManager.LoadScene(WIN_SCENE);
 	}
 }
