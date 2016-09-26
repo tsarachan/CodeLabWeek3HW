@@ -51,6 +51,7 @@ public class CrowdAngerScript : MonoBehaviour {
 	public void ResetForFailure(){
 		angerDelay = maxDelay;
 		angerTimer = angerDelay;
+		Debug.Log("ResetForFailure() called");
 		healthManager.DetermineHealthEffect(matchManagerScript.CrowdMultiplier); //possibly lose health
 		matchManagerScript.CrowdMultiplier = matchManagerScript.Min_Crowd_Multiplier; //reset the multiplier to 1
 		scoreManager.BonusFeedback(matchManagerScript.Min_Crowd_Multiplier);

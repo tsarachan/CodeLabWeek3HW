@@ -6,12 +6,14 @@ public class HealthManager : MonoBehaviour {
 
 	private Image[] hearts;
 	private MatchManagerScript matchManager;
+	private WinLoseManager winLoseManager;
 	private const string GAME_MANAGER = "GameManager";
 
 	private void Start(){
 		hearts = new Image[transform.childCount];
 		hearts = FindHearts();
 		matchManager = transform.root.Find(GAME_MANAGER).GetComponent<MatchManagerScript>();
+		winLoseManager = transform.root.Find(GAME_MANAGER).GetComponent<WinLoseManager>();
 	}
 
 	/// <summary>
@@ -35,6 +37,7 @@ public class HealthManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="multiplier">The crowd multiplier.</param>
 	public void DetermineHealthEffect(int multiplier){
+		Debug.Log("DetermineHealthEffect() called; multiplier == " + multiplier);
 		if (multiplier > matchManager.Min_Crowd_Multiplier){
 			foreach (Image heart in hearts){
 				if (heart.enabled){
@@ -43,5 +46,7 @@ public class HealthManager : MonoBehaviour {
 				}
 			}
 		}
+
+		winLoseManager.TestWinOrLose();
 	}
 }

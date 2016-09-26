@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour {
 	private int currentScore = 0;
 	public int CurrentScore{
 		get { return currentScore; }
+		set { currentScore = value; }
 	}
 	public int maxScore = 9999;
 
@@ -33,6 +34,7 @@ public class ScoreManager : MonoBehaviour {
 	private const float BONUS_X_LOC = -66.0f;
 	private const float BONUS_Y_LOC = 183.0f;
 
+
 	private void Start() {
 		score = GetComponent<Text>();
 		score.text = currentScore.ToString();
@@ -45,12 +47,12 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	public void UpdateScore(int amount){
-		currentScore += amount;
-		if (currentScore <= maxScore){
-			score.text = currentScore.ToString();
+		CurrentScore += amount;
+		if (CurrentScore <= maxScore){
+			score.text = CurrentScore.ToString();
 		} else {
-			currentScore = currentScore - maxScore;
-			score.text = currentScore.ToString();
+			CurrentScore = CurrentScore - maxScore;
+			score.text = CurrentScore.ToString();
 		}
 	}
 

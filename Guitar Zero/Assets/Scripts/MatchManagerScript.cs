@@ -29,6 +29,7 @@ public class MatchManagerScript : MonoBehaviour {
 	protected const string CROWD_METER = "Crowd anger meter";
 	protected const string COLOR_BURST = "Color burst";
 
+
 	public virtual void Awake (){
 		gameManager = GetComponent<GameManagerScript>();
 		scoreManager = transform.root.Find(SCORE_CANVAS).Find(SCORE_TEXT).GetComponent<ScoreManager>();
@@ -132,21 +133,21 @@ public class MatchManagerScript : MonoBehaviour {
 				if (x < gameManager.gridWidth - 2){
 					if (GridHasAChord(x, y)){
 						RemoveChord(x, y, 'A');
-						numRemoved += CHORD_SIZE;
+						numRemoved += 1;
 					}
 				}
 
 				if (x < gameManager.gridWidth - 3 && y < gameManager.gridHeight - 2){
 					if (GridHasCChord(x, y)){
 						RemoveChord(x, y, 'C');
-						numRemoved += CHORD_SIZE;
+						numRemoved += 1;
 					}
 				}
 
 				if (x < gameManager.gridWidth - 5 && y < gameManager.gridHeight - 1){
 					if (GridHasGChord(x, y)){
 						RemoveChord(x, y, 'G');
-						numRemoved += CHORD_SIZE;
+						numRemoved += 1;
 					}
 				}
 			}

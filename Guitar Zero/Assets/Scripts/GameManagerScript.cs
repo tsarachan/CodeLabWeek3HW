@@ -28,6 +28,17 @@ public class GameManagerScript : MonoBehaviour {
 
 	protected const string INSTRUCTION_SCENE_NAME = "Instruction scene";
 
+	public int numChordsInSong = 50;
+	public int NumChordsInSong{
+		get { return numChordsInSong; }
+	}
+	private WinLoseManager winLoseManager;
+	private int chordsPlayed = 0;
+	public int ChordsPlayed{
+		get { return chordsPlayed; }
+	}
+
+
 	public virtual void Start () {
 		//load the tokens, make the grid, and create references to the other scripts
 		tokenTypes = (UnityEngine.Object[])Resources.LoadAll("Tokens/");
@@ -42,6 +53,7 @@ public class GameManagerScript : MonoBehaviour {
 		MakeGrid();
 		ChangeGridDuplicates();
 		SceneManager.LoadScene(INSTRUCTION_SCENE_NAME, LoadSceneMode.Additive);
+		winLoseManager = GetComponent<WinLoseManager>();
 	}
 
 	public virtual void Update(){
@@ -50,7 +62,8 @@ public class GameManagerScript : MonoBehaviour {
 		if(!GridHasEmpty()){
 			//if the grid is full of tokens and has matches, remove them.
 			if(matchManager.GridHasMatch()){
-				matchManager.RemoveMatches();
+				chordsPlayed += matchManager.RemoveMatches();
+				if (chordsPlayed >= numChordsInSong) { winLoseManager.TestWinOrLose(); }
 			} else {
 				//if the grid is full and there are no matches, wait for the player to make a move (and look for it in InputManager)
 				inputManager.SelectToken();
