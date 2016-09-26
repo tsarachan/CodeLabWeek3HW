@@ -12,6 +12,7 @@ public class GameManagerScript : MonoBehaviour {
 
 	private const string SCORE_CANVAS = "Score canvas";
 	private const string CHORDS_REMAINING = "Chords remaining";
+	private const string SCORE_REQUIRED = "Score to win";
 	protected MatchManagerScript matchManager;
 	protected InputManagerScript inputManager;
 	protected RepopulateScript repopulateManager;
@@ -45,6 +46,7 @@ public class GameManagerScript : MonoBehaviour {
 		}
 	}
 	private Text chordsRemaining;
+	private Text scoreRequired;
 
 
 	public virtual void Start () {
@@ -64,6 +66,8 @@ public class GameManagerScript : MonoBehaviour {
 		winLoseManager = GetComponent<WinLoseManager>();
 		chordsRemaining = transform.root.Find(SCORE_CANVAS).Find(CHORDS_REMAINING).GetComponent<Text>();
 		ChordsPlayed = 0; //set the text correctly at the start of the game
+		scoreRequired = transform.root.Find(SCORE_CANVAS).Find(SCORE_REQUIRED).GetComponent<Text>();
+		scoreRequired.text = winLoseManager.ScoreToWin + " to win";
 	}
 
 	public virtual void Update(){
