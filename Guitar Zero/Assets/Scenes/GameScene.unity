@@ -218,6 +218,7 @@ GameObject:
   - 114: {fileID: 636344698}
   - 114: {fileID: 636344700}
   - 114: {fileID: 636344701}
+  - 114: {fileID: 636344702}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -301,6 +302,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57cc457e33534befbc546cc48f331f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &636344702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 636344695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36fafb3785a9d49a8b82ff1a8352cec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreToWin: 500
 --- !u!1 &853697441
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,6 +891,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 1978859793}
+  - 114: {fileID: 1978859794}
   m_Layer: 5
   m_Name: Life icons
   m_TagString: Untagged
@@ -906,6 +920,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1978859794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1978859792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c020221ee6314e2aab5b1ba2f3f094e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2039393147
 GameObject:
   m_ObjectHideFlags: 0

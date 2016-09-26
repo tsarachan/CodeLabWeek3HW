@@ -4,33 +4,36 @@ using System.Collections;
 
 public class ScoreManager : MonoBehaviour {
 
-	Text score;
+	private Text score;
 
-	int currentScore = 0;
+	private int currentScore = 0;
+	public int CurrentScore{
+		get { return currentScore; }
+	}
 	public int maxScore = 9999;
 
-	int basicIncrement = 1;
+	private int basicIncrement = 1;
 	public int BasicIncrement {
 		get { return basicIncrement; }
 		set { basicIncrement = value; }
 	}
 
-	int bonusIncrement = 100;
+	private int bonusIncrement = 100;
 	public int BonusIncrement {
 		get { return bonusIncrement; }
 		set { bonusIncrement = value; }
 	}
 
-	GameObject scoreFeedback;
+	private GameObject scoreFeedback;
 	GameObject bonusFeedback;
 
-	float canvasX;
-	float canvasY;
+	private float canvasX;
+	private float canvasY;
 
-	const float BONUS_X_LOC = -66.0f;
-	const float BONUS_Y_LOC = 183.0f;
+	private const float BONUS_X_LOC = -66.0f;
+	private const float BONUS_Y_LOC = 183.0f;
 
-	void Start() {
+	private void Start() {
 		score = GetComponent<Text>();
 		score.text = currentScore.ToString();
 		scoreFeedback = Resources.Load("Score feedback") as GameObject;
