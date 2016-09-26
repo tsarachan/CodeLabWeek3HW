@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 
@@ -9,6 +10,8 @@ public class GameManagerScript : MonoBehaviour {
 	public int gridHeight = 8;
 	public float tokenSize = 1;
 
+	private const string SCORE_CANVAS = "Score canvas";
+	private const string CHORDS_REMAINING = "Chords remaining";
 	protected MatchManagerScript matchManager;
 	protected InputManagerScript inputManager;
 	protected RepopulateScript repopulateManager;
@@ -36,7 +39,12 @@ public class GameManagerScript : MonoBehaviour {
 	private int chordsPlayed = 0;
 	public int ChordsPlayed{
 		get { return chordsPlayed; }
+		set{
+			chordsPlayed = value;
+			chordsRemaining.text = NumChordsInSong - chordsPlayed + " chords remaining";
+		}
 	}
+	private Text chordsRemaining;
 
 
 	public virtual void Start () {
@@ -54,6 +62,8 @@ public class GameManagerScript : MonoBehaviour {
 		ChangeGridDuplicates();
 		SceneManager.LoadScene(INSTRUCTION_SCENE_NAME, LoadSceneMode.Additive);
 		winLoseManager = GetComponent<WinLoseManager>();
+		chordsRemaining = transform.root.Find(SCORE_CANVAS).Find(CHORDS_REMAINING).GetComponent<Text>();
+		ChordsPlayed = 0; //set the text correctly at the start of the game
 	}
 
 	public virtual void Update(){
@@ -62,8 +72,8 @@ public class GameManagerScript : MonoBehaviour {
 		if(!GridHasEmpty()){
 			//if the grid is full of tokens and has matches, remove them.
 			if(matchManager.GridHasMatch()){
-				chordsPlayed += matchManager.RemoveMatches();
-				if (chordsPlayed >= numChordsInSong) { winLoseManager.TestWinOrLose(); }
+				ChordsPlayed += matchManager.RemoveMatches();
+				if (ChordsPlayed >= numChordsInSong) { winLoseManager.TestWinOrLose(); }
 			} else {
 				//if the grid is full and there are no matches, wait for the player to make a move (and look for it in InputManager)
 				inputManager.SelectToken();
