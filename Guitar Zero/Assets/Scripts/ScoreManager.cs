@@ -34,6 +34,8 @@ public class ScoreManager : MonoBehaviour {
 	private const float BONUS_X_LOC = -66.0f;
 	private const float BONUS_Y_LOC = 183.0f;
 
+	private const string CONSTANT_PIXEL_CANVAS = "Score local canvas";
+
 
 	private void Start() {
 		score = GetComponent<Text>();
@@ -67,7 +69,7 @@ public class ScoreManager : MonoBehaviour {
 										   pos.z);
 		newScoreFeedback.GetComponent<RectTransform>().anchoredPosition = correctedPos;
 
-		newScoreFeedback.transform.SetParent(transform.root.Find("Score canvas"), false);
+		newScoreFeedback.transform.SetParent(transform.root.Find(CONSTANT_PIXEL_CANVAS), false);
 		newScoreFeedback.GetComponent<Text>().text = amount.ToString();
 	}
 
