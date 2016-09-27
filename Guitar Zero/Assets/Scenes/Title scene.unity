@@ -196,8 +196,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.000005722046, y: 15}
-  m_SizeDelta: {x: 275.2, y: 30}
+  m_AnchoredPosition: {x: 0, y: 15}
+  m_SizeDelta: {x: 423, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &718750724
 MonoBehaviour:
@@ -231,7 +231,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Air guitar (and click) to fake it till you make it
+  m_Text: Air guitar (and click) to fake it till you make it. Alt-click to view credits.
 --- !u!222 &718750725
 CanvasRenderer:
   m_ObjectHideFlags: 0

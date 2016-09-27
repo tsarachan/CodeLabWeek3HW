@@ -21,3 +21,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Lose scene - low score.unity
   - enabled: 1
     path: Assets/Scenes/Lose scene - no health.unity
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
