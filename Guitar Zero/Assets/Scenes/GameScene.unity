@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angerDelay: 20
-  delayReduction: 0.8
+  delayReduction: 0.9
 --- !u!1 &1964472328
 GameObject:
   m_ObjectHideFlags: 0

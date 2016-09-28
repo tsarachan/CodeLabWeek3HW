@@ -46,6 +46,14 @@ public class CrowdAngerScript : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Make the crowd run out of patience faster.
+	/// </summary>
+	public void RaiseCrowdExpectations(){
+		angerDelay *= delayReduction;
+		if (angerDelay < MIN_DELAY) { angerDelay = MIN_DELAY; }
+	}
+
+	/// <summary>
 	/// If the crowd's patience runs out, reset their patience and cause ancillary effects.
 	/// </summary>
 	public void ResetForFailure(){
@@ -53,6 +61,7 @@ public class CrowdAngerScript : MonoBehaviour {
 		angerTimer = angerDelay;
 		healthManager.DetermineHealthEffect(matchManagerScript.CrowdMultiplier); //possibly lose health
 		matchManagerScript.CrowdMultiplier = matchManagerScript.Min_Crowd_Multiplier; //reset the multiplier to 1
+		matchManagerScript.SuccessesThisMultiplier = 0; //restart the process of building up crowd expectations
 		scoreManager.BonusFeedback(matchManagerScript.Min_Crowd_Multiplier);
 	}
 }

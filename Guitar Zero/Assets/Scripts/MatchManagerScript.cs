@@ -16,6 +16,13 @@ public class MatchManagerScript : MonoBehaviour {
 			crowdMultiplier = value;
 		}
 	}
+	private int successesThisMultiplier = 0;
+	public int SuccessesThisMultiplier{
+		get { return successesThisMultiplier; }
+		set{
+			successesThisMultiplier = value;
+		}
+	}
 	protected const int MIN_CROWD_MULTIPLIER = 1;
 	public int Min_Crowd_Multiplier{
 		get { return MIN_CROWD_MULTIPLIER; }
@@ -195,7 +202,14 @@ public class MatchManagerScript : MonoBehaviour {
 		Destroy(token3);
 
 		crowdAngerScript.ResetForSuccess();
-		CrowdMultiplier++;
+
+		SuccessesThisMultiplier++;
+
+		if (SuccessesThisMultiplier >= CrowdMultiplier){
+			CrowdMultiplier++;
+			crowdAngerScript.RaiseCrowdExpectations();
+			SuccessesThisMultiplier = 0;
+		}
 	}
 
 	protected void ChordFeedback(GameObject[] tokens, char chord){
