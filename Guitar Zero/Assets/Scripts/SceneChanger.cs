@@ -9,7 +9,7 @@ public class SceneChanger : MonoBehaviour {
 	private const string CREDITS_SCENE = "Credits scene";
 	private void Update(){
 		if (Input.GetMouseButtonDown(0)){
-			SceneManager.LoadScene(GAME_SCENE);
+			SceneManager.LoadScene(TITLE_SCENE);
 		} else if (Input.GetMouseButtonDown(1)){
 			SceneManager.LoadScene(CREDITS_SCENE);
 		}
