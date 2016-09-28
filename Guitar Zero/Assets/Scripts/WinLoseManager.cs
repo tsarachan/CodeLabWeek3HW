@@ -37,9 +37,7 @@ public class WinLoseManager : MonoBehaviour {
 	/// and GameManager.
 	/// </summary>
 	public void TestWinOrLose(){
-		Debug.Log("TestWinOrLose() called");
 		currentHealth = DetermineCurrentHealth();
-		Debug.Log("currentHealth == " + currentHealth);
 
 		if (currentHealth == 0){
 			Lose();

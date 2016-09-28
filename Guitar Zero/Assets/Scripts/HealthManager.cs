@@ -37,7 +37,6 @@ public class HealthManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="multiplier">The crowd multiplier.</param>
 	public void DetermineHealthEffect(int multiplier){
-		Debug.Log("DetermineHealthEffect() called; multiplier == " + multiplier);
 		if (multiplier > matchManager.Min_Crowd_Multiplier){
 			foreach (Image heart in hearts){
 				if (heart.enabled){
