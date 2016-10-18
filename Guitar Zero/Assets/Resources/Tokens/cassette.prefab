@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21219892}
   - 61: {fileID: 6120716}
   m_Layer: 0
-  m_Name: cassette
+  m_Name: cassette01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

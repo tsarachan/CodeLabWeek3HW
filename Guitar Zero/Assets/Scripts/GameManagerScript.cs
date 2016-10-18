@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManagerScript : MonoBehaviour {
 
@@ -26,7 +27,7 @@ public class GameManagerScript : MonoBehaviour {
 	public GameObject[,] gridArray;
 
 	protected UnityEngine.Object[] tokenTypes;
-	protected Sprite[] sprites;
+	protected Sprite[] dummySprites;
 
 	protected GameObject stringGraphic;
 
@@ -52,7 +53,7 @@ public class GameManagerScript : MonoBehaviour {
 	public virtual void Start () {
 		//load the tokens, make the grid, and create references to the other scripts
 		tokenTypes = (UnityEngine.Object[])Resources.LoadAll("Tokens/");
-		sprites = Resources.LoadAll<Sprite>("Sprites/");
+		dummySprites = Resources.LoadAll<Sprite>("Sprites/Dummy sprites");
 		gridArray = new GameObject[gridWidth, gridHeight];
 		matchManager = GetComponent<MatchManagerScript>();
 		inputManager = GetComponent<InputManagerScript>();
@@ -179,7 +180,7 @@ public class GameManagerScript : MonoBehaviour {
 		Vector3 position = GetWorldPositionFromGridPosition(x, y);
 		GameObject token = 
 			//we create a random kind of token, at that exact position in the grid, with the same rotation as its parent (TokenGrid)
-			Instantiate(tokenTypes[UnityEngine.Random.Range(0, tokenTypes.Length)], 
+			Instantiate(GetTokenForColumn(x), 
 			            position, 
 			            Quaternion.identity) as GameObject;
 		token.transform.parent = parent.transform;
@@ -219,9 +220,30 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	protected Sprite ChangeSprite(int x, int y){
-		int index = Array.IndexOf(sprites, gridArray[x, y].GetComponent<SpriteRenderer>().sprite);
+		int index = Array.IndexOf(dummySprites, gridArray[x, y].GetComponent<SpriteRenderer>().sprite);
 		index++;
-		if (index > sprites.Length - 1) { index = 0; }
-		return sprites[index];
+		if (index > dummySprites.Length - 1) { index = 0; }
+		return dummySprites[index];
+	}
+
+	/// <summary>
+	/// Returns a token appropriate for the column provided.
+	/// 
+	/// This assumes that tokens are named with the number of the columns they can appear in!
+	/// The number must be zero-indexed, so the strings are 0-5, not 1-6.
+	/// </summary>
+	/// <returns>A token that can exist in the column.</returns>
+	/// <param name="column">The column to be filled.</param>
+	protected GameObject GetTokenForColumn(int column){
+		List<GameObject> tokens = new List<GameObject>();
+
+		foreach (GameObject token in tokenTypes){
+			if (token.name.Contains(column.ToString())){
+				tokens.Add(token);
+				Debug.Log("adding " + token.name);
+			}
+		}
+
+		return tokens[UnityEngine.Random.Range(0, tokens.Count)];
 	}
 }

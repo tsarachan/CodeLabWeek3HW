@@ -30,6 +30,7 @@ public class MatchManagerScript : MonoBehaviour {
 	protected const int A_CHORD_MULTIPLIER = 1;
 	protected const int C_CHORD_MULTIPLIER = 3;
 	protected const int G_CHORD_MULTIPLIER = 2;
+	protected const int D_CHORD_MULTIPLIER = 4;
 	protected CrowdAngerScript crowdAngerScript;
 	protected const string SCORE_CANVAS = "Score canvas";
 	protected const string SCORE_TEXT = "Score";
@@ -48,7 +49,7 @@ public class MatchManagerScript : MonoBehaviour {
 	/// Checks the entire grid for matches.
 	/// </summary>
 	/// 
-	/// <returns><c>true</c>, if there are any matches, <c>false</c> otherwise.</returns>
+	/// <returns><c>true</c> if there are any matches, <c>false</c> otherwise.</returns>
 	public virtual bool GridHasMatch(){
 		bool match = false; //assume there is no match
 
@@ -67,6 +68,10 @@ public class MatchManagerScript : MonoBehaviour {
 
 				if (x < gameManager.gridWidth - 5 && y < gameManager.gridHeight - 1){
 					match = match || GridHasGChord(x, y);
+				}
+
+				if (x < gameManager.gridWidth - 2 && y < gameManager.gridHeight - 1 && y > 0) {
+					match = match || GridHasDChord(x, y);
 				}
 			}
 		}
@@ -125,6 +130,23 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 	}
 
+	public bool GridHasDChord(int x, int y){
+		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
+		GameObject token2 = gameManager.gridArray[x + 1, y - 1];
+		GameObject token3 = gameManager.gridArray[x + 2, y + 0];
+
+		if(token1 != null && token2 != null && token3 != null){ //ensure all of the token exists
+			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
+			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
+			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
+
+			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);  //compare their sprites
+			//to see if they're the same
+		} else {
+			return false;
+		}
+	}
+
 	/// <summary>
 	/// Destroys all tokens in a match of three or more
 	/// </summary>
@@ -155,6 +177,13 @@ public class MatchManagerScript : MonoBehaviour {
 					if (GridHasGChord(x, y)){
 						RemoveChord(x, y, 'G');
 						numRemoved += 1;
+					}
+				}
+					
+				if (x < gameManager.gridWidth - 2 && y < gameManager.gridHeight - 1 && y > 0){
+					if (GridHasDChord(x, y)){
+						RemoveChord(x, y, 'D');
+						numRemoved+= 1;
 					}
 				}
 			}
@@ -190,6 +219,12 @@ public class MatchManagerScript : MonoBehaviour {
 				token3 = gameManager.gridArray[x + 5, y + 0];
 				gameManager.gridArray[x + 5, y + 0] = null;
 				break;
+			case 'D':
+				token2 = gameManager.gridArray[x + 1, y - 1];
+				gameManager.gridArray[x + 1, y - 1] = null;
+				token3 = gameManager.gridArray[x + 2, y + 0];
+				gameManager.gridArray[x + 2, y + 0] = null;
+				break;
 			default:
 				Debug.Log("Illegal chord: " + chord);
 				break;
@@ -224,6 +259,9 @@ public class MatchManagerScript : MonoBehaviour {
 				break;
 			case 'G':
 				chordMultiplier = G_CHORD_MULTIPLIER;
+				break;
+			case 'D':
+				chordMultiplier = D_CHORD_MULTIPLIER;
 				break;
 			default:
 				Debug.Log("Illegal chord: " + chord);
