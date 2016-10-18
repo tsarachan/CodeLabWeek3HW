@@ -81,9 +81,9 @@ public class MatchManagerScript : MonoBehaviour {
 					match = match || GridHasDChord(x, y);
 				}
 
-				if (x < gameManager.gridWidth - 5 &&  y > 1) {
-					match = match || GridHasFChord(x, y);
-				}
+//				if (x < gameManager.gridWidth - 5 &&  y > 1) {
+//					match = match || GridHasFChord(x, y);
+//				}
 			}
 		}
 
@@ -174,31 +174,31 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 	}
 
-	public bool GridHasFChord(int x, int y){
-		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
-		GameObject token2 = gameManager.gridArray[x + 1, y - 2];
-		GameObject token3 = gameManager.gridArray[x + 2, y - 2];
-		GameObject token4 = gameManager.gridArray[x + 3, y - 1];
-		GameObject token5 = gameManager.gridArray[x + 4, y + 0];
-		GameObject token6 = gameManager.gridArray[x + 5, y + 0];
-
-		if(token1 != null && token2 != null && token3 != null
-			&& token4 != null && token5 != null && token6 != null){
-			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr4 = token4.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr5 = token5.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr6 = token6.GetComponent<SpriteRenderer>();
-
-			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite
-					&& sr3.sprite == sr4.sprite && sr4.sprite == sr5.sprite
-					&& sr5.sprite == sr6.sprite
-					&& sr1.sprite.name.Contains(F_CHORD_NAME));  //compare their sprites to see if they're the same
-		} else {
-			return false;
-		}
-	}
+//	public bool GridHasFChord(int x, int y){
+//		GameObject token1 = gameManager.gridArray[x + 0, y + 0];
+//		GameObject token2 = gameManager.gridArray[x + 1, y - 2];
+//		GameObject token3 = gameManager.gridArray[x + 2, y - 2];
+//		GameObject token4 = gameManager.gridArray[x + 3, y - 1];
+//		GameObject token5 = gameManager.gridArray[x + 4, y + 0];
+//		GameObject token6 = gameManager.gridArray[x + 5, y + 0];
+//
+//		if(token1 != null && token2 != null && token3 != null
+//			&& token4 != null && token5 != null && token6 != null){
+//			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
+//			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
+//			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
+//			SpriteRenderer sr4 = token4.GetComponent<SpriteRenderer>();
+//			SpriteRenderer sr5 = token5.GetComponent<SpriteRenderer>();
+//			SpriteRenderer sr6 = token6.GetComponent<SpriteRenderer>();
+//
+//			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite
+//					&& sr3.sprite == sr4.sprite && sr4.sprite == sr5.sprite
+//					&& sr5.sprite == sr6.sprite
+//					&& sr1.sprite.name.Contains(F_CHORD_NAME));  //compare their sprites to see if they're the same
+//		} else {
+//			return false;
+//		}
+//	}
 
 	#endregion
 
@@ -242,12 +242,12 @@ public class MatchManagerScript : MonoBehaviour {
 					}
 				}
 
-				if (x < gameManager.gridWidth - 5 &&  y > 1){
-					if (GridHasFChord(x, y)){
-						RemoveChord(x, y, 'F');
-						numRemoved += 1;
-					}
-				}
+//				if (x < gameManager.gridWidth - 5 &&  y > 1){
+//					if (GridHasFChord(x, y)){
+//						RemoveChord(x, y, 'F');
+//						numRemoved += 1;
+//					}
+//				}
 			}
 		}
 
@@ -287,27 +287,27 @@ public class MatchManagerScript : MonoBehaviour {
 				token3 = gameManager.gridArray[x + 2, y + 0];
 				gameManager.gridArray[x + 2, y + 0] = null;
 				break;
-		case 'F':
-				token2 = gameManager.gridArray[x + 1, y - 2];
-				gameManager.gridArray[x + 1, y - 2] = null;
-				token3 = gameManager.gridArray[x + 2, y - 2];
-				gameManager.gridArray[x + 2, y - 2] = null;
-
-				//the F chord has 6 notes, so handle the first 3 normally, and the remaining 3 here
-				GameObject token4 = gameManager.gridArray[x + 3, y - 1];
-				gameManager.gridArray[x + 3, y - 1] = null;
-				GameObject token5 = gameManager.gridArray[x + 4, y + 0];
-				gameManager.gridArray[x + 4, y + 0] = null;
-				GameObject token6 = gameManager.gridArray[x + 5, y + 0];
-				gameManager.gridArray[x + 5, y + 0] = null;
-
-				ChordFeedback(new GameObject[] { token4, token5, token6 }, chord);
-
-				Destroy(token4);
-				Destroy(token5);
-				Destroy(token6);
-				
-				break;
+//		case 'F':
+//				token2 = gameManager.gridArray[x + 1, y - 2];
+//				gameManager.gridArray[x + 1, y - 2] = null;
+//				token3 = gameManager.gridArray[x + 2, y - 2];
+//				gameManager.gridArray[x + 2, y - 2] = null;
+//
+//				//the F chord has 6 notes, so handle the first 3 normally, and the remaining 3 here
+//				GameObject token4 = gameManager.gridArray[x + 3, y - 1];
+//				gameManager.gridArray[x + 3, y - 1] = null;
+//				GameObject token5 = gameManager.gridArray[x + 4, y + 0];
+//				gameManager.gridArray[x + 4, y + 0] = null;
+//				GameObject token6 = gameManager.gridArray[x + 5, y + 0];
+//				gameManager.gridArray[x + 5, y + 0] = null;
+//
+//				ChordFeedback(new GameObject[] { token4, token5, token6 }, chord);
+//
+//				Destroy(token4);
+//				Destroy(token5);
+//				Destroy(token6);
+//				
+//				break;
 			default:
 				Debug.Log("Illegal chord: " + chord);
 				break;
@@ -346,9 +346,9 @@ public class MatchManagerScript : MonoBehaviour {
 			case 'D':
 				chordMultiplier = D_CHORD_MULTIPLIER;
 				break;
-			case 'F':
-				chordMultiplier = F_CHORD_MULTIPLIER;
-				break;
+//			case 'F':
+//				chordMultiplier = F_CHORD_MULTIPLIER;
+//				break;
 			default:
 				Debug.Log("Illegal chord: " + chord);
 				break;
